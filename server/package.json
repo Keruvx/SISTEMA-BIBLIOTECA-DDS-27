@@ -14,7 +14,8 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "test": "server"
+    "test": "server",
+    "server":"nodemon ./server.js localhost 3000"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
