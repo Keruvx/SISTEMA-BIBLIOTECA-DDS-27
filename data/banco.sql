@@ -1,13 +1,21 @@
--- Banco da Biblioteca
 -- CRIAR DATABASE
-CREATE DATABASE biblioteca_dd;
-
+CREATE DATABASE db_biblioteca;
+DROP DATABASE db_biblioteca;
 -- USAR O BANCO
-USE biblioteca_dd;
+USE db_biblioteca;
 
 -- CRIAR TABELA
+-- TABELA USUARIOS
+CREATE TABLE tb_usuarios(
+	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR (100) NOT NULL,
+    email VARCHAR (100),
+    senha VARCHAR (50),
+    perfil VARCHAR (10)
+);
+
 -- TABELA LEITOR
-CREATE TABLE tb_leitor(
+CREATE TABLE tb_leitores(
 	id_leitor INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR (100) NOT NULL,
     cpf VARCHAR (15),
@@ -35,7 +43,7 @@ CREATE TABLE tb_emprestimo(
     livro int,
 	-- CHAVE ESTRANGEIRA
     FOREIGN KEY (leitor) REFERENCES tb_leitores(id_leitor),
-    FOREIGN KEY (livre) REFERENCES tb_livro(id_livro)
+    FOREIGN KEY (livro) REFERENCES tb_livros(id_livro)
 );
 
 -- INSERIR INFORMAÇOES
@@ -46,7 +54,7 @@ VALUES
 ("Osvaldo", "67", "677", "Osv@gmail.com");
 
 -- INSERIR LIVROS
-INSERT INTO tb_livros(titulo, autor, ano_puplicacao, genero, esta_disponivel)
+INSERT INTO tb_livros(titulo, autor, ano_publicacao, genero, esta_disponivel)
 VALUES
 ("Narmia", "Aslan", "1900-08-25", "Foda", 1),
 ("Valorant", "Alan", "1900-12-25", "Cara", 1),
@@ -63,6 +71,5 @@ VALUES
 SELECT * FROM tb_leitores;
 
 -- JUNTAR TABELAS
-SELECT * FROM tb_emprestimo AS emp JOIN tb_leitores AS le ON emp.leito = le.id_leito JOIN tb_livro AS li ON emp.livro = li.id_livro;
-
+SELECT * FROM tb_emprestimo AS emp JOIN tb_leitores AS le ON emp.leitor = le.id_leitor JOIN tb_livros AS li ON emp.livro = li.id_livro;
 

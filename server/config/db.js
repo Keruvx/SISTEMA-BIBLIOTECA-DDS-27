@@ -14,3 +14,6 @@ const pool = mysql.createPool({
     //Maximo de lista de espera
     queueLimit: 0 // 0 = ILIMITADO
 });
+
+//Exportando a pool de conexões para ser usada em outros arquivos
+module.exports = pool;
