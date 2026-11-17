@@ -1,24 +1,29 @@
- // Importação do módulo express
-const express = require("express");
-const app = express();
+// IMPORTAÇÃO DO MÓDULO DO EXPRESS
+const express = require("express")
+const app = express()
 
-//modulo path para trabalhar com caminhos de arquivos
-const path = require("path");
+// MÓDULO DO NODE PARA LIDAR COM CAMINHO DE ARQUIVOS
+const path = require("path")
 
-// Importação do módulo dotenv para carregar variáveis de ambiente
-require("dotenv").config()
+// IMPORTAR O MÓDULO DO DOTENV, LÊ O ARQUIVO .ENV, E JÁ CONFIGURA O BANCO
+require('dotenv').config()
 
-// Difine a porta do servidor
-const PORT = process.env.PORT || 5000
+// DEFINE A PORTA DO SERVIDOR 
+const port = process.env.PORT || 5000
 
-//Configuração do EJS como motor de visualização
+// CONFIGURAR O EJS COMO TEMPLATE ENGINE
+// define o ejs como engine do front - interpreta as páginas
 app.set("view engine", "ejs")
+// APONTAR PARA O EJS ONDE ESTÃO AS PÁGINAS
+app.set("views", path.join(__dirname, "../client/views") )
 
-//Apontar para a pasta public para servir arquivos estáticos
-app.set("views", path.join(__dirname, "../client/views"));
+// CRIAÇÃO DAS ROTAS
 
-//Criação de rota
-//Rotas publicas
+// IMPORTAR AS ROTAS DE USUÁRIO
+const usuarioRoutes = require("./routes/usuarioRoutes.js")
+app.use("/usuarios", usuarioRoutes)
+
+// ROTAS PÚBLICAS
 app.get("/", (req, res) => {
     res.render('index')
 })
@@ -27,24 +32,27 @@ app.get("/login", (req, res) => {
     res.render('login')
 })
 
-//Traz as configurações do banco de dados
+// TRAZ AS CONFIGURAÇÕES DO BANCO
 const pool = require("./config/db.js");
 
-//Força a conexao com o banco de dados
-(
-async () => {
-    try {
-        await pool.getConnection()
-        console.log("Conexão com o banco de dados realizada com sucesso👌");
-        //Funcao para subir o servidor
-        app.listen(PORT, () => {
-            console.log(`Servidor rodando na porta ${PORT}`)
-            console.log(`Link: http://localhost:${PORT}`)
-        })  
-
-    } catch (error) {
-        console.error("Não foi possível conectar ao banco de dados:", error);
-        process.exit(1) // Encerra o processo com código de erro
+// FORÇA A CONEXÃO COM O BANCO
+(async () =>{
+        try{
+            // SE O BANCO ESTIVER ATIVO, INICIA O SERVIDOR DO BANCO
+            await pool.getConnection()
+            console.log("Banco foi conectado");
+            // SE O BANCO SUBIU, SOBE O BACKEND
+            // FUNÇÃO PARA SUBIR O SERVIDOR
+            app.listen(port, () =>{
+                console.log(`Servidor na porta: ${port}`);
+                console.log(`Link: http://localhost:${port}`);
+            })
+        }
+        catch(erro){
+            // SE DEU ERRO, AVISA E ENCERRA A TENTATIVA
+            console.log("Erro ao conectar com o banco");
+            process.exit(1)
+        }
     }
-}
-)();
+)()
+
