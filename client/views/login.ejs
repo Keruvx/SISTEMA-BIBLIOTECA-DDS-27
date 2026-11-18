@@ -1,11 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <H1>LOGIN</H1>
-</body>
-</html>
+<!-- Importaão do header -->
+ <%- include('partials/header')%>
+    <main class="container my-2 flex-grow-1">
+        <h1 style="color: white;">
+        ESTOU NA PAGINA DE LOGIN
+        </h1>
+
+        <div class="d-flex flex-column">
+            <form action="/usuarios/login" method="post">
+
+                <!-- CAIXINHA DE EMAIL -->
+                <div class="form-group">
+                    <label for="email"> Email: </label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+
+                <!-- CAIXINHA DE SENHA -->
+                <div>
+                    <label for="senha"> Senha: </label>
+                    <input type="password" name="senha" id="senha" required>
+                </div>
+                <!-- Botão de envio -->
+                <button type="submit" class="btn-subtle theme-primary" mt-3>Entrar</button>
+
+            </form>
+        </div>
+    </main>
+
+<%- include('partials/footer')%>
