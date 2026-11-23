@@ -1,13 +1,13 @@
-<!-- Importaão do header -->
- <%- include('partials/header')%>
+<!-- IMPORTAÇÃO DO HEADER -->
+<%- include('partials/header') %>
+
     <main class="container my-2 flex-grow-1">
-        <h1 style="color: white;">
-        ESTOU NA PAGINA DE LOGIN
+        <h1 class="text-center"> 
+            ESTOU NA PÁGINA DE LOGIN 
         </h1>
 
         <div class="d-flex flex-column">
             <form action="/usuarios/login" method="post">
-
                 <!-- CAIXINHA DE EMAIL -->
                 <div class="form-group">
                     <label for="email"> Email: </label>
@@ -15,15 +15,18 @@
                 </div>
 
                 <!-- CAIXINHA DE SENHA -->
-                <div>
+                 <div class="form-group">
                     <label for="senha"> Senha: </label>
                     <input type="password" name="senha" id="senha" required>
-                </div>
-                <!-- Botão de envio -->
-                <button type="submit" class="btn-subtle theme-primary" mt-3>Entrar</button>
+                 </div>
 
+                <!-- BOTÃO DE ENVIO -->
+                <button type="submit" class="btn-subtle theme-accent mt-3"> 
+                    Entrar 
+                </button>
             </form>
         </div>
     </main>
 
-<%- include('partials/footer')%>
+<!-- IMPORTAÇÃO DO FOOTER -->
+<%- include('partials/footer') %>

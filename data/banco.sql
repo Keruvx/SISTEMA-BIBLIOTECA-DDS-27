@@ -1,27 +1,32 @@
--- CRIAR DATABASE
+-- BANCO DA BIBLIOTECA
+
+-- CRIAR O BANCO 
 CREATE DATABASE db_biblioteca;
-DROP DATABASE db_biblioteca;
--- USAR O BANCO
+
+-- UTILIZAR O BANCO
 USE db_biblioteca;
 
--- CRIAR TABELA
--- TABELA USUARIOS
+-- CRIAR AS TABELAS
+
+-- CRIAR TABELA USUÁRIOS
 CREATE TABLE tb_usuarios(
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR (100) NOT NULL,
-    email VARCHAR (100),
-    senha VARCHAR (50),
-    perfil VARCHAR (10)
+    nome VARCHAR(45) NOT NULL,
+    email VARCHAR(45),
+    senha VARCHAR(15),
+    perfil VARCHAR(10)
 );
+
 
 -- TABELA LEITOR
 CREATE TABLE tb_leitores(
 	id_leitor INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR (100) NOT NULL,
-    cpf VARCHAR (15),
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(15),
     telefone VARCHAR(15),
     email VARCHAR(100)
 );
+
 
 -- TABELA LIVRO
 CREATE TABLE tb_livros(
@@ -29,47 +34,67 @@ CREATE TABLE tb_livros(
     titulo VARCHAR(100) NOT NULL,
     autor VARCHAR(100),
     ano_publicacao DATE,
-    genero VARCHAR(100),
+	genero VARCHAR(100),
     esta_disponivel TINYINT
 );
 
--- TABELA EMPRESTIMO
-CREATE TABLE tb_emprestimo(
+
+-- TABELA EMPRÉSTIMO 
+CREATE TABLE tb_emprestimos(
 	id_emprestimo INT PRIMARY KEY AUTO_INCREMENT,
     dt_emprestimo DATE,
-    dt_previsao_devolucao DATE,
-    dt_devolucao DATE,
-    leitor int,
-    livro int,
-	-- CHAVE ESTRANGEIRA
+	dt_previsao_devolucao DATE,      
+	dt_devolucao DATE, 
+    leitor INT,
+    livro INT,
+    -- CHAVES ESTRANGEIRAS
     FOREIGN KEY (leitor) REFERENCES tb_leitores(id_leitor),
-    FOREIGN KEY (livro) REFERENCES tb_livros(id_livro)
+    FOREIGN KEY (livro)  REFERENCES tb_livros(id_livro)
 );
 
--- INSERIR INFORMAÇOES
-INSERT INTO tb_leitores(nome, cpf, telefone, email)
+
+-- INSERIR INFORMAÇÕES
+-- leitores
+INSERT INTO 
+	tb_leitores(nome, cpf, telefone, email)
 VALUES 
-("Marcos", "99", "999", "marcos99@gmail.com"),
-("Narcos", "88", "888", "narcos@gmail.com"),
-("Osvaldo", "67", "677", "Osv@gmail.com");
+	("Cristiano", "777", "7777", "cris@gmail.com"),
+	("Ronaldo", "777", "7777", "ronaldo@gmail.com"),
+	("Larissa", "5234", "123456789", "larissa@gmail.com");
 
--- INSERIR LIVROS
-INSERT INTO tb_livros(titulo, autor, ano_publicacao, genero, esta_disponivel)
+-- livros
+INSERT INTO 
+	tb_livros(titulo, autor, ano_publicacao, genero, esta_disponivel)
 VALUES
-("Narmia", "Aslan", "1900-08-25", "Foda", 1),
-("Valorant", "Alan", "1900-12-25", "Cara", 1),
-("League of Legends", "Ryze", "2009-07-21", "Lixo", 1);
-
--- INSERIR EMPRESTIMO
-INSERT INTO tb_emprestimo(dt_emprestimo,dt_previsao_devolucao,dt_devolucao,leitor,livro)
+	("Nárnia", "Aslan", "1900-08-25", "Fantasia", 1),	
+	("50 cores", "Fic", "2010-08-25", "Emoção", 1),	
+  	("Dicionário", "Aurélio", "1500-08-25", "Saber", 0);  
+    
+-- emprestimos
+INSERT INTO 
+	tb_emprestimos(dt_emprestimo,dt_previsao_devolucao,dt_devolucao,leitor,livro)
 VALUES
-	(current_date(),"2026-12-26", "3000-12-25", 1,2),
-    (current_date(),"2026-12-26", "3000-12-25", 2,2),
-    (current_date(),"2026-12-26", "3000-12-25", 3,2);
+	(CURRENT_DATE(), "2026-12-12", "2026-12-13", 1,2),
+	(CURRENT_DATE(), "2026-12-12", "2026-12-13", 2,3),
+	(CURRENT_DATE(), "2026-12-12", "2026-12-13", 3,1);
+    
+    
+-- EXCLUIR TABELAS
+-- DROP TABLE tb_usuarios;
 
--- VER TABELAS
+-- BUSCAR INFORMAÇÕES
 SELECT * FROM tb_leitores;
+SELECT * FROM tb_livros;
+SELECT * FROM tb_emprestimos;
 
--- JUNTAR TABELAS
-SELECT * FROM tb_emprestimo AS emp JOIN tb_leitores AS le ON emp.leitor = le.id_leitor JOIN tb_livros AS li ON emp.livro = li.id_livro;
-
+-- JOINS - JUNTAR TABELAS 
+SELECT *
+	FROM tb_emprestimos AS emp
+JOIN 
+	tb_leitores AS le
+ON 
+	emp.leitor = le.id_leitor -- iguala o campo pelo nome das colunas
+JOIN
+	tb_livros AS li
+ON
+	emp.livro = li.id_livro; -- aqui também
