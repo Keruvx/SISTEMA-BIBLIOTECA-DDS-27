@@ -72,9 +72,23 @@ module.exports = {
         }
     },
     // UPDATE
-    atualizar: (req, res) =>{
-        usuarioModels.atualizarUsuario()
-        res.send("ATUALIZEI UM USUÁRIO")          
+    atualizar: async (req, res) => {
+        try {
+            // PEGAR O ID, VINDO DA URL, ATRAVÉS DOS PARÂMETROS
+            const idDaUrl = req.params.id
+
+            // PEGAR AS INFORMAÇÕES DO BODY DA REQUISIÇÃO
+            const { nome, email, senha, perfil } = req.body
+
+            // MANDA PRO MODEL O ID E AS INFORMAÇÕES PRA ELE FAZER O SERVIÇO
+            await usuarioModels.atualizarUsuario(idDaUrl, nome, email, senha, perfil)
+
+            // REDIRECIONA PRA LISTA DE USUÁRIOS
+            res.redirect("/usuarios")
+        } catch (erro) {
+            console.log(erro);
+            res.render("erro", { erro, mensagem: "Erro ao atualizar o usuário" })
+        }
     },
     // DELETE
     deletar: async (req, res) => {
@@ -92,5 +106,38 @@ module.exports = {
             console.log(erro);
             res.render("erro", { erro, mensagem: "Erro ao deletar o usuário"})
          }
+    },
+    //editar
+    renderizarEditar: async(req, res) => {
+        try {
+            // PEGAR O ID, VINDO DA URL, ATRAVÉS DOS PARÂMETROS
+            const idDaUrl = req.params.id
+            // CHAMA O MODEL PARA COLETAR AS INFORMAÇÕES DO USUÁRIO
+            const usuario = await usuarioModels.buscarUsuarioPorId(idDaUrl)
+            // RENDERIZA A PÁGINA DE EDIÇÃO, PASSANDO AS INFORMAÇÕES DO USUÁRIO
+            res.render("usuarios/editar", { usuario })
+            // RENDEIZA A PAGINA DE EDIÇÃO, PASSANDO AS INFORMAÇÕES DO USUÁRIO
+            res.render("usuarios/editar", { usuarioEditado: usuario })
+        }
+        catch (erro) {
+            console.log(erro);
+            res.render("erro", { erro, mensagem: "Erro ao buscar o usuário para edição"})
+        }
+    },   
+    editar: async(req, res) => {
+        try{
+            //PEGAR O ID, VINDO DA URL, ATRAVÉS DOS PARÂMETROS
+            const idDaUrl = req.params.id
+            //PEGAR AS INFORMAÇÕES DO BODY DA REQUISIÇÃO
+            const { nome, email, senha, perfil } = req.body
+            //MANDA PRO MODEL O ID E AS INFORMAÇÕES PRA ELE FAZER O SERVIÇO
+            await usuarioModels.editarUsuario(idDaUrl, nome, email, senha, perfil)
+            //REDIRECIONA PRA LISTA DE USUÁRIOS
+            res.redirect("/usuarios")
+
+        }
+        catch (erro) {}
+            console.log(erro);
+            res.render("erro", { erro, mensagem: "Erro ao editar o usuário"})
+        }
     }
-}

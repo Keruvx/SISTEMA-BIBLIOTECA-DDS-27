@@ -1,11 +1,75 @@
 <!-- IMPORTAÇÃO DO HEADER -->
 <%- include('../partials/header') %>
 
-    <main class="bg-info container my-2 flex-grow-1">
-        <h1 style="color: white;"> 
-            ESTOU NA PÁGINA DE EDITAR DE USUÁRIO 
-        </h1>
-    </main>
+<main class="container my-2 flex-grow-1">
+  <h1 class="fg-accent fs-6x1">ESTOU NA PÁGINA DE EDIÇÃO DE USUÁRIO</h1>
+
+  <!-- CRIAR O FORMULÁRIO DE EDIÇÃO -->
+  <div class="d-flex flex-column">
+    <!-- action - Fala a rota que o botão vai enviar as informações -->
+    <form
+      action="/usuarios/editar/<%= usuarioEditado.id_usuario %>"
+      method="post"
+    >
+      <!-- CAIXINHA DE NOME -->
+      <div class="form-group">
+        <label for="nome"> Nome: </label>
+        <input
+          type="text"
+          name="nome"
+          id="nome"
+          class="form-control"
+          required
+          value="<%= usuarioEditado.nome %>"
+        />
+      </div>
+
+      <!-- CAIXINHA DE EMAIL -->
+      <div class="form-group">
+        <label for="email"> Email: </label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          required
+          value="<%= usuarioEditado.email %>"
+        />
+      </div>
+
+      <!-- CAIXINHA DE SENHA -->
+      <div class="form-group">
+        <label for="senha"> Senha: </label>
+        <input
+          type="password"
+          name="senha"
+          id="senha"
+          class="form-control"
+          required
+          value="<%= usuarioEditado.senha %>"
+        />
+      </div>
+
+      <!-- CAIXINHA DE PERFIL -->
+      <div class="form-group">
+        <label for="perfil"> Perfil: </label>
+        <select name="perfil" id="perfil" class="form-control">
+          <option value="adm" <%= usuarioEditado.perfil === 'adm' ? 'selected' : '' %>>
+            Administrador
+          </option>
+          <option value="bibliotecaria" <%= usuarioEditado.perfil === 'bibliotecaria' ? 'selected' : '' %>>
+            Bibliotecaria
+          </option>
+        </select>
+      </div>
+
+      <!-- BOTÃO DE ENVIO -->
+      <button type="submit" class="btn-subtle theme-success mt-3">
+        Confirmar
+      </button>
+    </form>
+  </div>
+</main>
 
 <!-- IMPORTAÇÃO DO FOOTER -->
 <%- include('../partials/footer') %>
